@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learning World - Game giáo dục cho trẻ 3-8 tuổi.">
+  <title>Learning World</title>
+  <link rel="stylesheet" href="./src/styles/tokens.css">
+  <link rel="stylesheet" href="./src/styles/base.css">
+  <link rel="stylesheet" href="./src/styles/layers.css">
+  <link rel="stylesheet" href="./src/styles/components.css">
+  <link rel="stylesheet" href="./src/styles/scenes.css">
+  <link rel="stylesheet" href="./src/styles/renderers.css">
+</head>
+<body>
+  <noscript>Learning World cần JavaScript để hoạt động.</noscript>
+  <div id="app" class="app-shell" aria-live="polite">
+    <div id="background-layer" class="layer"></div>
+    <div id="game-layer" class="layer"></div>
+    <div id="hud-layer" class="layer"></div>
+    <div id="dialogue-layer" class="layer"></div>
+    <div id="toast-layer" class="layer"></div>
+    <div id="modal-layer" class="layer"></div>
+    <div id="effect-layer" class="layer"></div>
+  </div>
+  <script type="module" src="./src/app/Bootstrap.js"></script>
+</body>
+</html>

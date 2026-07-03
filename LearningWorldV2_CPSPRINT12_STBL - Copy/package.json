@@ -1,0 +1,13 @@
+{
+  "name": "learning-world-v2",
+  "version": "2.0.0",
+  "description": "Learning World V2 - Nền tảng game giáo dục cho trẻ 3-8 tuổi",
+  "type": "module",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "echo "Run tests in browser"",
+    "validate": "node tools/validator/validate.js"
+  },
+  "keywords": ["education", "game", "children", "learning"],
+  "license": "MIT"
+}

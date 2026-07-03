@@ -1,0 +1,25 @@
+/* ============================================================
+   Layer System
+   ============================================================ */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#background-layer { z-index: 0; pointer-events: none; }
+#game-layer { z-index: 10; }
+#hud-layer { z-index: 20; }
+#dialogue-layer { z-index: 30; }
+#toast-layer { z-index: 40; }
+#modal-layer { z-index: 50; }
+#effect-layer { z-index: 60; }
+
+#game-layer > *,
+#hud-layer > *,
+#dialogue-layer > *,
+#toast-layer > *,
+#modal-layer > *,
+#effect-layer > * {
+  pointer-events: auto;
+}

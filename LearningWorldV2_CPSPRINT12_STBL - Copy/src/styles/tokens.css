@@ -1,0 +1,58 @@
+/* ============================================================
+   Design Tokens - CSS Custom Properties
+   ============================================================ */
+:root {
+  /* Colors */
+  --color-primary: #1f6f50;
+  --color-primary-light: #4caf7d;
+  --color-accent: #ffd86b;
+  --color-accent-dark: #dca61c;
+  --color-bg: #a7ddff;
+  --color-bg-alt: #bdf7d0;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fbff;
+  --color-text: #263238;
+  --color-text-light: #667085;
+  --color-text-inverse: #ffffff;
+  --color-success: #4caf7d;
+  --color-success-light: #d4f8d4;
+  --color-warning: #ff9800;
+  --color-warning-light: #fff0d8;
+  --color-danger: #e53935;
+  --color-border: rgba(255,255,255,0.72);
+  --color-shadow: rgba(38,50,56,0.14);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px var(--color-shadow);
+  --shadow-md: 0 8px 24px var(--color-shadow);
+  --shadow-lg: 0 18px 40px var(--color-shadow);
+
+  /* Typography */
+  --font-family: 'Nunito', 'Quicksand', 'Comic Sans MS', 'Segoe UI', sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: clamp(2rem, 5.5vw, 2.8rem);
+
+  /* Transitions */
+  --transition-fast: 160ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}

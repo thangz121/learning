@@ -1,0 +1,83 @@
+/**
+ * Lesson 008 - Mixed Gameplay Validation
+ */
+export default [
+  {
+    id: 'q008-001',
+    course: 'vietnamese',
+    lesson: 'mixed-validation',
+    type: 'alphabet',
+    renderer: 'select',
+    difficulty: 1,
+    story: 'Gấu Trúc học chữ cái.',
+    question: 'Chữ cái đầu tiên là gì?',
+    choices: [
+      { value: 'a', text: 'A a' },
+      { value: 'b', text: 'B b' },
+      { value: 'c', text: 'C c' },
+      { value: 'd', text: 'D d' },
+    ],
+    answer: 'a',
+    schemaVersion: 1,
+  },
+  {
+    id: 'q008-002',
+    course: 'vietnamese',
+    lesson: 'mixed-validation',
+    type: 'vocabulary',
+    renderer: 'image-select',
+    difficulty: 1,
+    story: 'Gấu Trúc nhận biết hoa quả.',
+    question: 'Đâu là quả táo?',
+    choices: [
+      { value: 'apple', text: 'Táo' },
+      { value: 'banana', text: 'Chuối' },
+      { value: 'orange', text: 'Cam' },
+      { value: 'grape', text: 'Nho' },
+    ],
+    answer: 'apple',
+    schemaVersion: 1,
+  },
+  {
+    id: 'q008-003',
+    course: 'vietnamese',
+    lesson: 'mixed-validation',
+    type: 'vocabulary',
+    renderer: 'drag',
+    difficulty: 2,
+    story: 'Gấu Trúc phân loại đồ dùng.',
+    question: 'Kéo đồ dùng vào cặp sách!',
+    choices: [
+      { value: 'pencil', text: 'Bút chì' },
+      { value: 'book', text: 'Sách' },
+      { value: 'eraser', text: 'Tẩy' },
+    ],
+    zones: [
+      { value: 'bag', text: 'Cặp sách' },
+    ],
+    answer: {
+      pencil: 'bag',
+      book: 'bag',
+      eraser: 'bag',
+    },
+    schemaVersion: 1,
+  },
+  {
+    id: 'q008-004',
+    course: 'vietnamese',
+    lesson: 'mixed-validation',
+    type: 'number',
+    renderer: 'select',
+    difficulty: 1,
+    story: 'Gấu Trúc đếm số.',
+    question: 'Một cộng một bằng mấy?',
+    choices: [
+      { value: '1', text: 'Một' },
+      { value: '2', text: 'Hai' },
+      { value: '3', text: 'Ba' },
+      { value: '4', text: 'Bốn' },
+    ],
+    answer: '2',
+    schemaVersion: 1,
+  },
+];
