@@ -8,6 +8,7 @@ import { ImportPanel } from './importer/ImportPanel.js';
 import { PreviewPanel } from './preview/PreviewPanel.js';
 import { DebugPanel } from './debug/DebugPanel.js';
 import { SettingsPanel } from './settings/SettingsPanel.js';
+import { UnknownPanel } from './UnknownPanel.js';
 
 /**
  * StudioRouter - Creates studio panels on demand via factory Map.
@@ -37,7 +38,9 @@ export class StudioRouter {
 
   createPanel(panelId) {
     const factory = this.#factories.get(panelId);
-    if (!factory) return null;
+    if (!factory) {
+      return new UnknownPanel(this.#container, this.#context, panelId, this.listPanels());
+    }
     return factory(this.#container, this.#context);
   }
 
