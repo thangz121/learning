@@ -4,50 +4,64 @@ import { GameplayController } from '../controllers/GameplayController.js';
 import { Button } from '../components/Button.js';
 
 /**
- * GameplayScene - Màn hình gameplay.
+ * GameplayScene - Orchestrates gameplay via GameplayController.
  */
 export class GameplayScene extends Scene {
   #controller = null;
+  #controllerDestroyed = false;
 
   async enter(data) {
+    await super.enter(data);
     this.element.classList.add('scene--gameplay');
-    const container = DOMHelper.create('div', { classes: ['gameplay-container'] });
-    this.element.appendChild(container);
+    const stage = DOMHelper.create('div', { classes: ['scene__stage'] });
 
-    // Navigation HUD
-    const nav = DOMHelper.create('div', { classes: ['gameplay-nav'] });
-    const btnBack = new Button('← Bài học', {
+    const container = DOMHelper.create('div', { classes: ['gameplay-container'] });
+    stage.appendChild(container);
+
+    const btnBack = new Button('Thoát', {
       variant: 'secondary',
-      onClick: () => this.context.sceneManager.go('lesson-select', { course: data?.course }),
+      onClick: () => this.context.navigationController.goTo('lesson-select', {
+        course: data?.course,
+        category: data?.category,
+      }),
     });
-    const btnHome = new Button('🏠 Trang chủ', {
-      variant: 'secondary',
-      onClick: () => this.context.sceneManager.go('main-menu'),
-    });
-    nav.appendChild(btnBack.mount());
-    nav.appendChild(btnHome.mount());
-    this.element.appendChild(nav);
-    this.components.push(btnBack, btnHome);
+    stage.appendChild(btnBack.mount());
+    this.addComponent(btnBack);
+
+    this.element.appendChild(stage);
 
     this.#controller = new GameplayController(this.context);
+    this.#controllerDestroyed = false;
     await this.#controller.startLesson({
       course: data?.course,
       category: data?.category,
       lessonId: data?.lessonId,
       container,
       onComplete: (result) => {
-        this.context.sceneManager.go('result', {
-          result,
-          course: data?.course,
-          category: data?.category,
-          lessonId: data?.lessonId,
-        });
+        if (!this.isDestroyed() && this.context && this.context.navigationController) {
+          this.context.navigationController.goTo('result', {
+            result,
+            course: data?.course,
+            category: data?.category,
+            lessonId: data?.lessonId,
+          });
+        }
       },
     });
   }
 
-  async exit() {
-    if (this.#controller) {
+  async beforeExit() {
+    this.#destroyController();
+  }
+
+  destroy() {
+    this.#destroyController();
+    super.destroy();
+  }
+
+  #destroyController() {
+    if (this.#controller && !this.#controllerDestroyed) {
+      this.#controllerDestroyed = true;
       this.#controller.destroy();
       this.#controller = null;
     }

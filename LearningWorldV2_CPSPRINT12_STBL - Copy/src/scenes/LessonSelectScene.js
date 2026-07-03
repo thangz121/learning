@@ -1,43 +1,52 @@
 import { Scene } from './Scene.js';
 import { DOMHelper } from '../helpers/DOMHelper.js';
 import { Button } from '../components/Button.js';
-import { Card } from '../components/Card.js';
 
 /**
- * LessonSelectScene - Chọn bài học.
+ * LessonSelectScene - Select a lesson within a category.
  */
 export class LessonSelectScene extends Scene {
   async enter(data) {
+    await super.enter(data);
     this.element.classList.add('scene--lesson-select');
     const stage = DOMHelper.create('div', { classes: ['scene__stage'] });
-    const course = data?.course || 'vietnamese';
 
     const title = DOMHelper.create('h1', { classes: ['title'], text: 'Chọn bài học' });
     stage.appendChild(title);
 
-    const categories = await this.context.lessonRepository.getCategories(course);
-    for (const cat of categories) {
-      const lessons = await this.context.lessonRepository.getLessons(course, cat.id);
-      for (const lesson of lessons) {
-        const card = new Card({
-          title: lesson.title,
-          content: `Độ khó: ${lesson.difficulty} | Thời lượng: ${lesson.duration} phút`
-        });
-        card.element.style.cursor = 'pointer';
-        card.element.addEventListener('click', () => {
-          this.context.sceneManager.go('gameplay', { course, category: cat.id, lessonId: lesson.id });
-        });
-        stage.appendChild(card.mount());
-        this.components.push(card);
-      }
+    const course = data?.course;
+    const category = data?.category;
+
+    if (!course || !category) {
+      const btnBack = new Button('Quay lại', {
+        variant: 'secondary',
+        onClick: () => this.context.navigationController.goTo('course-select'),
+      });
+      stage.appendChild(btnBack.mount());
+      this.addComponent(btnBack);
+      this.element.appendChild(stage);
+      return;
+    }
+
+    const lessons = await this.context.lessonRepository.getLessons(course, category);
+    for (const lesson of lessons) {
+      const btn = new Button(lesson.title || lesson.id, {
+        onClick: () => this.context.navigationController.goTo('gameplay', {
+          course,
+          category,
+          lessonId: lesson.id,
+        }),
+      });
+      stage.appendChild(btn.mount());
+      this.addComponent(btn);
     }
 
     const btnBack = new Button('Quay lại', {
       variant: 'secondary',
-      onClick: () => this.context.sceneManager.go('course-select')
+      onClick: () => this.context.navigationController.goTo('course-select'),
     });
     stage.appendChild(btnBack.mount());
-    this.components.push(btnBack);
+    this.addComponent(btnBack);
 
     this.element.appendChild(stage);
   }

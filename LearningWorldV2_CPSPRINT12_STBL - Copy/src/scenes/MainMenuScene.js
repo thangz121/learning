@@ -1,33 +1,38 @@
 import { Scene } from './Scene.js';
 import { DOMHelper } from '../helpers/DOMHelper.js';
 import { Button } from '../components/Button.js';
+import { GameConfig } from '../constants/GameConfig.js';
 
 /**
- * MainMenuScene - Màn hình chính.
+ * MainMenuScene - Main menu with navigation to gameplay, studio, and settings.
  */
 export class MainMenuScene extends Scene {
   async enter() {
+    await super.enter();
     this.element.classList.add('scene--main-menu');
     const stage = DOMHelper.create('div', { classes: ['scene__stage'] });
 
-    const brand = DOMHelper.create('div', { classes: ['brand-mark'], text: '🐼 Learning World' });
-    stage.appendChild(brand);
-
-    const title = DOMHelper.create('h1', { classes: ['title'], text: 'Chào mừng bé!' });
+    const title = DOMHelper.create('h1', { classes: ['title'], text: GameConfig.appName });
     stage.appendChild(title);
 
-    const btnCourses = new Button('Khóa học', {
-      onClick: () => this.context.sceneManager.go('course-select'),
+    const btnLearn = new Button('Học tập', {
+      onClick: () => this.context.navigationController.goTo('course-select'),
     });
-    stage.appendChild(btnCourses.mount());
-    this.components.push(btnCourses);
+    stage.appendChild(btnLearn.mount());
+    this.addComponent(btnLearn);
+
+    const btnStudio = new Button('Learning Studio', {
+      onClick: () => this.context.navigationController.goTo('studio'),
+    });
+    stage.appendChild(btnStudio.mount());
+    this.addComponent(btnStudio);
 
     const btnSettings = new Button('Cài đặt', {
       variant: 'secondary',
-      onClick: () => { /* Future: settings modal */ },
+      onClick: () => this.context.navigationController.goTo('settings'),
     });
     stage.appendChild(btnSettings.mount());
-    this.components.push(btnSettings);
+    this.addComponent(btnSettings);
 
     this.element.appendChild(stage);
   }

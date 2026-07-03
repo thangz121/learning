@@ -1,20 +1,40 @@
 import { Scene } from './Scene.js';
 import { DOMHelper } from '../helpers/DOMHelper.js';
-import { TimeHelper } from '../helpers/TimeHelper.js';
+import { GameConfig } from '../constants/GameConfig.js';
 
 /**
- * SplashScene - Màn hình khởi động.
+ * SplashScene - Logo splash with auto navigation to main menu.
  */
 export class SplashScene extends Scene {
+  #timer = null;
+
   async enter() {
+    await super.enter();
     this.element.classList.add('scene--splash');
-    const art = DOMHelper.create('div', { classes: ['splash-art'], text: '🐼' });
-    const title = DOMHelper.create('h1', { classes: ['title'], text: 'Learning World' });
-    const subtitle = DOMHelper.create('p', { classes: ['subtitle'], text: 'Học mà chơi, chơi mà học!' });
-    this.element.appendChild(art);
-    this.element.appendChild(title);
-    this.element.appendChild(subtitle);
-    await TimeHelper.delay(1500);
-    this.context.sceneManager.go('main-menu');
+    const stage = DOMHelper.create('div', { classes: ['scene__stage'] });
+    const logo = DOMHelper.create('div', { classes: ['splash-logo'], text: GameConfig.appName });
+    stage.appendChild(logo);
+    this.element.appendChild(stage);
+
+    this.#timer = setTimeout(() => {
+      if (!this.isDestroyed() && this.context && this.context.navigationController) {
+        this.context.navigationController.goTo('main-menu');
+      }
+    }, GameConfig.splashDurationMs);
+  }
+
+  async beforeExit() {
+    if (this.#timer) {
+      clearTimeout(this.#timer);
+      this.#timer = null;
+    }
+  }
+
+  destroy() {
+    if (this.#timer) {
+      clearTimeout(this.#timer);
+      this.#timer = null;
+    }
+    super.destroy();
   }
 }

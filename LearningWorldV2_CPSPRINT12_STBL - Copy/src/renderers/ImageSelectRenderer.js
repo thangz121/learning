@@ -11,6 +11,7 @@ export class ImageSelectRenderer extends QuestionRenderer {
   #abortController = null;
   #choicesContainer = null;
   #choiceAudioMap = new Map();
+  #renderedQuestionImage = false;
 
   setOnSelect(callback) { this.#onSelect = callback; }
 
@@ -20,7 +21,6 @@ export class ImageSelectRenderer extends QuestionRenderer {
     this.#clearFeedback();
     this.#choiceAudioMap.clear();
     if (!question) return;
-    if (question.image) this.#renderQuestionImage(question.image);
     this.#attachChoices(question.choices);
   }
 
@@ -61,6 +61,7 @@ export class ImageSelectRenderer extends QuestionRenderer {
     this.#clearFeedback();
     this.#choicesContainer = null;
     this.#choiceAudioMap.clear();
+    this.#renderedQuestionImage = false;
     super.clear();
   }
 
@@ -71,7 +72,25 @@ export class ImageSelectRenderer extends QuestionRenderer {
     this.#onSelect = null;
     this.#choicesContainer = null;
     this.#choiceAudioMap.clear();
+    this.#renderedQuestionImage = false;
     super.destroy();
+  }
+
+  buildSkeleton(question) {
+    super.buildSkeleton(question);
+    this.#cleanupQuestionImage();
+    if (question.image) {
+      this.#renderQuestionImage(question.image);
+      this.#renderedQuestionImage = true;
+    }
+  }
+
+  #cleanupQuestionImage() {
+    if (this.#renderedQuestionImage) {
+      const existing = this.getRoot()?.querySelector('.question-image-container');
+      if (existing) existing.remove();
+      this.#renderedQuestionImage = false;
+    }
   }
 
   #renderQuestionImage(url) {

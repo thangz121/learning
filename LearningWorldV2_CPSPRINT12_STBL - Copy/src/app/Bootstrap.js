@@ -1,4 +1,5 @@
 import { App } from './App.js';
+import { RuntimeErrorHandler } from '../core/RuntimeErrorHandler.js';
 
 /**
  * Bootstrap - Khởi động ứng dụng.
@@ -6,7 +7,7 @@ import { App } from './App.js';
 function bootstrap() {
   const root = document.querySelector('#app');
   if (!root) {
-    console.error('Không tìm thấy #app');
+    RuntimeErrorHandler.handle(new Error('Không tìm thấy #app'), { phase: 'bootstrap' });
     return;
   }
   const app = new App(root);
